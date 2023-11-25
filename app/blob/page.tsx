@@ -1,5 +1,7 @@
 'use client'
 
+import { Three } from '@/helpers/components/Three'
+import { ScrollControls, Scroll } from '@react-three/drei'
 import dynamic from 'next/dynamic'
 
 const Blob = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Blob), { ssr: false })
@@ -20,19 +22,24 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
 })
 const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
 
+// Scroll controls cannot be used inside View component or multiple views as they create a portal and mess up events. However, they can be used with Scroll from lenis, for multimple canvases in one page.
+// Three component (which uses tunel rat), can be used to handle ScrollControls from r3f and useScroll inside of it
 export default function Page() {
   return (
     <>
-      <div className='mx-auto flex w-full flex-col flex-wrap items-center md:flex-row  lg:w-4/5'>
-        <div className='flex w-full flex-col items-start justify-center p-12 text-center md:w-2/5 md:text-left'>
-          <h1 className='my-4 text-5xl font-bold leading-tight'>Another Page</h1>
-        </div>
-      </div>
-
-      <View className='absolute top-0 flex h-screen w-full flex-col items-center justify-center'>
-        <Blob />
-        <Common />
-      </View>
+      <Three className='absolute top-0 flex h-screen w-full flex-col items-center justify-center'>
+        <ScrollControls pages={100}>
+          <Blob />
+          <Common />
+          <Scroll html>
+            <div className='mx-auto flex w-full flex-col flex-wrap items-center md:flex-row  lg:w-4/5'>
+              <div className='flex w-full flex-col items-start justify-center p-12 text-center md:w-2/5 md:text-left'>
+                <h1 className='my-4 text-5xl font-bold leading-tight'>Another Page</h1>
+              </div>
+            </div>
+          </Scroll>
+        </ScrollControls>
+      </Three>
     </>
   )
 }

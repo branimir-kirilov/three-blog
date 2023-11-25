@@ -1,37 +1,40 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
+import { Three } from '@/helpers/components/Three'
+import { ScrollControls, Scroll } from '@react-three/drei'
+import { Suspense, useEffect } from 'react'
 
-const PotatoRider = dynamic(() => import('@/components/canvas/PotatoRider').then((mod) => mod.PotatoRider), { ssr: false })
-const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
-  ssr: false,
-  loading: () => (
-    <div className='flex h-96 w-full flex-col items-center justify-center'>
-      <svg className='-ml-1 mr-3 h-5 w-5 animate-spin text-black' fill='none' viewBox='0 0 24 24'>
-        <circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4' />
-        <path
-          className='opacity-75'
-          fill='currentColor'
-          d='M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-        />
-      </svg>
-    </div>
-  ),
-})
-const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mod.Common), { ssr: false })
+import { getProject, val } from '@theatre/core'
+import studio from '@theatre/studio'
+import extension from '@theatre/r3f/dist/extension'
+import { SheetProvider } from '@theatre/r3f'
+import { Experience } from '@/components/canvas/Experience'
+import theatreState from '../src/theatre/path.json'
 
 export default function Page() {
+  useEffect(() => {
+    studio.extend(extension)
+    studio.initialize()
+  }, [])
+
+  const sheet = getProject('Fly Through', { state: theatreState }).sheet('Scene')
+
   return (
-    <>
-      <div className='h-full w-full text-center'>
-        <View orbit className='flex h-full w-full flex-col items-center justify-center'>
+    <Three>
+      <ScrollControls pages={10}>
+        <SheetProvider sheet={sheet}>
           <Suspense fallback={null}>
-            <PotatoRider />
-            <Common />
+            <Scroll>
+              <Experience />
+            </Scroll>
           </Suspense>
-        </View>
-      </div>
-    </>
+          {/* <Scroll html>
+            <section className='trigger-section'>
+              <div>There</div>
+            </section>
+          </Scroll> */}
+        </SheetProvider>
+      </ScrollControls>
+    </Three>
   )
 }
