@@ -6,6 +6,7 @@ import { val } from '@theatre/core'
 import { PerspectiveCamera, useCurrentSheet } from '@theatre/r3f'
 import { useFrame } from '@react-three/fiber'
 import { Extrusion } from '@/components/Extrusion'
+import { Asteroid } from './Asteroid'
 
 const PotatoRider = dynamic(() => import('@/components/canvas/PotatoRider').then((mod) => mod.PotatoRider), {
   ssr: false,
@@ -27,10 +28,14 @@ export const Experience = () => {
 
   return (
     <>
+      <PerspectiveCamera makeDefault position={[0, 0, 0]} theatreKey='camera' />
       <Sky distance={450000} sunPosition={[0, -5, 0]} inclination={0} azimuth={1} />
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
       <PotatoRider />
-      <PerspectiveCamera makeDefault position={[0, 0, 0]} theatreKey='camera' />
+      <Asteroid position={[12, 0, 12]} />
+      <Asteroid position={[10, 0, -10]} />
+      <Asteroid position={[-33, -3, -8]} />
+      <Asteroid position={[-50, 0, 15]} />
       <Common />
       <Extrusion
         start={[25, 25]}
@@ -40,7 +45,7 @@ export const Experience = () => {
           [30, 55, 10, 77, 25, 95],
         ]}
         bevelEnabled
-        amount={10}
+        amount={15}
       />
     </>
   )

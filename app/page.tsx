@@ -21,7 +21,7 @@ export default function Page() {
 
   return (
     <Three>
-      <ScrollControls pages={10}>
+      <ScrollControls pages={20}>
         <SheetProvider sheet={sheet}>
           <Suspense fallback={null}>
             <Scroll>
