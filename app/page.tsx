@@ -12,27 +12,22 @@ import { Experience } from '@/components/canvas/Experience'
 import theatreState from '../src/theatre/path.json'
 
 export default function Page() {
-  useEffect(() => {
-    studio.extend(extension)
-    studio.initialize()
-  }, [])
+  // useEffect(() => {
+  // studio.extend(extension)
+  // studio.initialize()
+  // }, [])
 
   const sheet = getProject('Fly Through', { state: theatreState }).sheet('Scene')
 
   return (
     <Three>
-      <ScrollControls pages={20}>
+      <ScrollControls pages={15}>
         <SheetProvider sheet={sheet}>
           <Suspense fallback={null}>
             <Scroll>
               <Experience />
             </Scroll>
           </Suspense>
-          {/* <Scroll html>
-            <section className='trigger-section'>
-              <div>There</div>
-            </section>
-          </Scroll> */}
         </SheetProvider>
       </ScrollControls>
     </Three>

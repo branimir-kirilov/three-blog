@@ -7,6 +7,8 @@ import { PerspectiveCamera, useCurrentSheet } from '@theatre/r3f'
 import { useFrame } from '@react-three/fiber'
 import { Extrusion } from '@/components/Extrusion'
 import { Asteroid } from './Asteroid'
+import { SingleAsteroid2 } from './Asteroid2'
+import { SingleAsteroid1 } from './Asteroid1'
 
 const PotatoRider = dynamic(() => import('@/components/canvas/PotatoRider').then((mod) => mod.PotatoRider), {
   ssr: false,
@@ -36,6 +38,8 @@ export const Experience = () => {
       <Asteroid position={[10, 0, -10]} />
       <Asteroid position={[-33, -3, -8]} />
       <Asteroid position={[-50, 0, 15]} />
+      <SingleAsteroid2 position={[-10, 0, -5]} scale={3} />
+      <SingleAsteroid1 position={[-10, 0, 4]} />
       <Common />
       <Extrusion
         start={[25, 25]}

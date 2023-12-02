@@ -8,7 +8,7 @@ export const Common = ({ color }) => {
   return (
     <Suspense fallback={null}>
       {color && <color attach='background' args={[color]} />}
-      <ambientLight />
+      <ambientLight intensity={1} />
       <pointLight position={[20, 30, 10]} />
     </Suspense>
   )
